@@ -44,9 +44,9 @@ for(const width of [390,768,1440])for(const project of projects){
   await expect(page.locator('.case-screenshot img')).toBeVisible();
   await expect.poll(()=>page.locator('.case-screenshot img').evaluate(img=>img.complete && img.naturalWidth>0)).toBe(true);
   expect(await page.title()).toContain(project.name);
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href',`https://aamil-dev-studio.vercel.app/projects/${project.slug}`);
-  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content',`https://aamil-dev-studio.vercel.app${project.image}`);
-  await expect(page.getByRole('link',{name:/View GitHub Repository/})).toHaveAttribute('href',project.github);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href',`https://zevq-labs.vercel.app/projects/${project.slug}`);
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content',`https://zevq-labs.vercel.app${project.image}`);
+  await expect(page.getByRole('link',{name:/Enquire About This Project/})).toHaveAttribute('href','/#contact');
   if(project.live)await expect(page.getByRole('link',{name:/Visit Live Application/})).toHaveAttribute('href',project.live);
   else await expect(page.getByRole('link',{name:/Visit Live Application/})).toHaveCount(0);
   await expect(page.locator('.related-grid .case-card')).toHaveCount(3);
