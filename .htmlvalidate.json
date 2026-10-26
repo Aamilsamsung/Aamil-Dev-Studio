@@ -1,0 +1,1 @@
+{"extends":["html-validate:recommended"],"rules":{"void-style":"off","no-trailing-whitespace":"off","tel-non-breaking":"off"}}
