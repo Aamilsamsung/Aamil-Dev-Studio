@@ -1,4 +1,4 @@
-# Aamil Dev Studio
+# ZEVQ Labs
 
 Existing portfolio, enhanced in place. Static HTML/CSS/JavaScript with a Node.js Vercel contact function. No frontend framework or production dependencies.
 
