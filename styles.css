@@ -4,3 +4,5 @@
 .footer-inner a{text-decoration:underline;text-underline-offset:3px}
 
 .project-visual:after{inset:45% 0 0;background:linear-gradient(transparent,#0c0f11 75%)}
+
+.project-title h3{background:#0c0f11;border-radius:3px;padding:2px 3px}
