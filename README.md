@@ -37,4 +37,4 @@ The four showcased repositories and their READMEs were read on 26 October 2026. 
 
 ## Current validation
 
-14 contact endpoint unit tests passed using provider stubs; these are not live delivery tests. HTML validation, JS syntax checks and the static production build passed. Production dependency audit: zero vulnerabilities. Local browser install failed because the downloaded Chromium archive was invalid; browser/axe and performance results remain unverified pending GitHub CI and a reachable live deployment. No fake metrics or testimonials are used.
+14 contact endpoint unit tests passed using provider stubs; these are not live delivery tests. HTML validation, JS syntax checks and the static production build passed. Production dependency audit: zero vulnerabilities. Local browser install failed because the downloaded Chromium archive was invalid. GitHub CI subsequently passed the desktop/tablet/mobile browser checks at 390, 768 and 1440px, including axe WCAG scans, on commit 83d200be75be81070161818f4b1efb9098f20ca6 (run 40342069798). Live performance and production checks remain unverified pending deployment. No fake metrics or testimonials are used.
