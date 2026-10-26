@@ -1,9 +1,9 @@
 const {test,expect}=require('@playwright/test');
-const fs=require('node:fs');
 for(const width of [390,768,1440]) {
  test(`navigation, validation and accessibility at ${width}px`,async({page})=>{
   await page.setViewportSize({width,height:900});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.addInitScript({path:require.resolve('axe-core')});
   await page.goto((process.env.BASE_URL || 'http://127.0.0.1:8080'));
   await expect(page.getByRole('heading',{level:1})).toBeVisible();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
@@ -17,7 +17,6 @@ for(const width of [390,768,1440]) {
   await page.getByLabel('Your name').fill('Test visitor');
   await page.getByLabel('Email',{exact:true}).fill('bad-email');
   expect(await page.locator('input[name="email"]').evaluate(e=>e.validity.typeMismatch)).toBe(true);
-  await page.addScriptTag({content:fs.readFileSync(require.resolve('axe-core'),'utf8')});
   const audit=await page.evaluate(()=>axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}}));
   expect(audit.violations.map(x=>({id:x.id,nodes:x.nodes.map(n=>n.target)}))).toEqual([]);
   expect(errors).toEqual([]);
