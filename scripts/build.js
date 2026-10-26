@@ -1,7 +1,7 @@
 const fs=require('node:fs');
 const {card,page,escape}=require('./project-template');
 const projects=require('../content/projects.json');
-const origin='https://aamil-dev-studio.vercel.app';
+const origin='https://zevq-labs.vercel.app';
 const source=fs.readFileSync('index.html','utf8');
 if(!source.includes('<!-- PROJECT_CARDS -->'))throw new Error('Homepage card template marker is missing');
 const header=source.match(/<header[\s\S]*?<\/header>/)[0].replace(/href="#/g,'href="/#').replace('class="active"','');
