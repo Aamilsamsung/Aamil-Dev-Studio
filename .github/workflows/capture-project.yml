@@ -1,0 +1,41 @@
+name: Capture verified TraceCart API docs
+on:
+  push:
+    paths: ['.github/workflows/capture-project.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Fetch pinned public TraceCart source
+        run: |
+          git clone https://github.com/Aamilsamsung/TraceCart.git /tmp/tracecart-capture
+          git -C /tmp/tracecart-capture checkout c3cc77060bd996f455d38a92a6c8c71f0be59c6a
+          python3 -m venv /tmp/tracecart-capture/venv
+          /tmp/tracecart-capture/venv/bin/pip install -r /tmp/tracecart-capture/requirements.txt
+      - name: Capture actual running API documentation
+        run: |
+          cd /tmp/tracecart-capture
+          venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8123 > /tmp/tracecart-server.log 2>&1 &
+          cd "$GITHUB_WORKSPACE"
+          mkdir -p capture-output
+          node <<'JS'
+          const {chromium}=require('@playwright/test');
+          (async()=>{const browser=await chromium.launch({channel:'chrome'});const page=await browser.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1});for(let i=0;i<20;i++){try{await page.goto('http://127.0.0.1:8123/docs');break;}catch{await new Promise(r=>setTimeout(r,500));}}await page.locator('.swagger-ui .opblock').first().waitFor();await page.screenshot({path:'capture-output/tracecart-api.png'});require('fs').writeFileSync('capture-output/provenance.txt','Actual Swagger UI served by TraceCart c3cc77060bd996f455d38a92a6c8c71f0be59c6a on a disposable local CI instance. No production deployment implied.');await browser.close();})().catch(e=>{console.error(e);process.exit(1)});
+          JS
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: tracecart-authentic-capture
+          path: capture-output/
+          retention-days: 7
