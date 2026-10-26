@@ -12,9 +12,9 @@ Browser checks: `npx playwright install chromium` then `npx playwright test`. Ch
 
 Import **Aamilsamsung/Aamil-Dev-Studio** into workspace **aamilsamsungm56-9276**, project **aamil-dev-studio**, framework **Other**, root `/`, production branch **main**. `vercel.json` sets `npm run build` and `dist`. Keep automatic Git deployments enabled. Do not publish the repository root as the static directory: it contains tests and setup files.
 
-No production deployment has been verified yet. The connected Vercel API returned 403 permission denied when creating the project. The CLI has no authenticated session and the dashboard requires sign-in. A workspace owner must grant project creation rights or import this repository through their dashboard. Do not interpret build success as deployment success.
+Production is live at https://aamil-dev-studio.vercel.app/ (deployed through the authenticated dashboard on 26 October 2026). GitHub App access was granted specifically for this repository. The initial deployment was Ready at commit 9d07dbb; the dashboard confirms pushes to main update production automatically. The connected API still cannot see this new project; dashboard access was used. The public homepage and contact configuration endpoint return HTTP 200; contact delivery remains disabled until provider credentials are authorized.
 
-After the actual production URL is known, set absolute canonical, og:url, and og:image metadata to that URL; recheck social previews. The supplied social image is 1200×630. No domain purchase is needed.
+Absolute canonical, og:url, and og:image metadata now use the production URL. The supplied social image is 1200×630. No domain purchase is needed.
 
 ## Real contact delivery setup
 
@@ -38,3 +38,11 @@ The four showcased repositories and their READMEs were read on 26 October 2026. 
 ## Current validation
 
 14 contact endpoint unit tests passed using provider stubs; these are not live delivery tests. HTML validation, JS syntax checks and the static production build passed. Production dependency audit: zero vulnerabilities. Local browser install failed because the downloaded Chromium archive was invalid. GitHub CI subsequently passed the desktop/tablet/mobile browser checks at 390, 768 and 1440px, including axe WCAG scans, on commit 83d200be75be81070161818f4b1efb9098f20ca6 (run 40342069798). Live performance and production checks remain unverified pending deployment. No fake metrics or testimonials are used.
+
+## Remaining launch requirements
+
+The current Vercel workspace is Hobby. Vercel restricts Hobby to personal, non-commercial use; an eligible plan is required for ongoing commercial hosting of the advertised studio services. No paid plan or domain was activated.
+
+Resend installation is pending the owner's specific approval to create a provider API key and store it securely in Vercel. Turnstile site/secret configuration and sender authorization are also pending. Inbox delivery has not been tested. The public endpoint correctly returns disabled configuration rather than claiming email success. Live cross-origin POST rejection was verified (403).
+
+The original responsive browser/axe suite passed in GitHub CI. The workflow now additionally tests the public production origin at the same three widths; consult the latest Actions run for the current outcome. Live performance has no Lighthouse score yet; one uncached network fetch is not a performance benchmark.
