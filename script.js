@@ -26,7 +26,7 @@ async function configureContact() {
     script.onload = () => { widget = window.turnstile.render('#spam-check', { sitekey: config.siteKey, theme: 'dark' }); };
     script.onerror = () => { status.textContent = 'Spam protection could not load. Please email directly below.'; };
     document.head.append(script);
-  } catch { status.textContent = 'Online enquiries are not available yet. Please email aamil.dev@gmail.com directly.'; }
+  } catch { status.textContent = 'Online enquiries are not available yet. Please email zevqlabs@gmail.com directly.'; }
 }
 configureContact();
 form.addEventListener('submit', async e => {
