@@ -1,1 +1,1 @@
-module.exports={testDir:'tests',testMatch:'*.spec.cjs',use:{browserName:'chromium',channel:process.env.CI ? 'chrome' : undefined},webServer:process.env.BASE_URL ? undefined : {command:'python3 -m http.server 8080 --directory dist',url:'http://127.0.0.1:8080',reuseExistingServer:false}};
+module.exports={testDir:'tests',testMatch:'*.spec.cjs',use:{browserName:'chromium',channel:process.env.CI ? 'chrome' : undefined},webServer:process.env.BASE_URL ? undefined : {command:'node scripts/preview.js',url:'http://127.0.0.1:8080',reuseExistingServer:false}};

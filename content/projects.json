@@ -1,0 +1,58 @@
+[
+  {
+    "slug":"roastai","name":"RoastAI","category":"AI application / full-stack development","short":"A personal reply workspace for experimenting with tone, conversation context, and AI-assisted writing.",
+    "description":"RoastAI brings a web writing workspace, a Python API, and Gemini-powered reply generation into one project. It explores how people can shape the tone of a response while keeping conversations and preferences in their own account.",
+    "problem":"A useful AI reply tool needs more than a text box. It needs clear tone controls, conversation context, saved preferences, and honest feedback when a provider is unavailable.",
+    "workflow":["Sign in to an individual workspace and choose the reply style and language settings.","Submit a message to the FastAPI backend, which loads the relevant settings and context before calling Gemini.","Review the generated reply and its English meaning. Conversation history and preferences are stored in the database."],
+    "features":[{"title":"Reply controls","text":"Modes, intensity, voice, language, and custom instructions shape generation."},{"title":"Account-scoped history","text":"The repository implements isolated conversations, activity, and saved preferences."},{"title":"Provider boundaries","text":"Gemini requests stay on the server. Provider failures produce explicit errors rather than invented replies."},{"title":"Social integration work","text":"Official Meta account connection and messaging workflows exist in the repository; live delivery depends on credentials, approval, and account permissions."}],
+    "uses":["Exploring different tones for personal and creative writing.","Studying account isolation, persistence, and AI provider integration in a full-stack product.","Developing controlled social-reply workflows with official provider APIs."],
+    "stack":["Next.js","TypeScript","FastAPI","Python","PostgreSQL","Gemini"],
+    "status":"In development · public sign-in available",
+    "statusNote":"The public sign-in screen loaded during verification. Authenticated generation and social delivery were not tested for this portfolio update. Google sign-in showed a retry state in the captured session; integration configuration and provider access remain separate from page availability.",
+    "live":"https://roastai-frontend.onrender.com/","liveNote":"Opens the public access screen. An account is required; free hosting may need time to wake up.",
+    "github":"https://github.com/Aamilsamsung/RoastAI","image":"/assets/projects/roastai.webp","imageWidth":1363,"imageHeight":936,
+    "caption":"Actual public sign-in screen, captured 26 October 2026. No authenticated workspace or generated result is implied.","source":"README.md and public interface","sourceRef":"78a4dc1639921ea54371cbddf569d18767fde35c"
+  },
+  {
+    "slug":"tracecart","name":"TraceCart","category":"Backend engineering / commerce attribution","short":"A FastAPI prototype linking customer conversations to orders through validated attribution records.",
+    "description":"TraceCart explores a focused commerce question: which customer conversation led to an order? Its API models conversations, orders, and attribution records, with explicit validation of the relationships between them.",
+    "problem":"A conversation and an order can exist independently without a reliable connection. Attribution needs to check that both records exist, that the order belongs to that conversation, and that the same order is not attributed twice.",
+    "workflow":["Create a customer conversation with a message and intent.","Create an order associated with that conversation.","Create an attribution record. The API validates ownership and rejects duplicate attribution before saving the relationship."],
+    "features":[{"title":"Structured records","text":"Create and list conversations, orders, and attribution records through FastAPI endpoints."},{"title":"Relationship validation","text":"Missing records and mismatched conversation/order pairs produce useful HTTP errors."},{"title":"Duplicate prevention","text":"An order cannot receive more than one attribution record."},{"title":"Developer-facing documentation","text":"Swagger UI, ReDoc, Pydantic schemas, and Pytest coverage support local development."}],
+    "uses":["Learning how to model conversation-to-order relationships in a backend API.","Prototyping an attribution step before connecting an approved commerce data source.","Practicing validation, persistence, and error handling in a small Python service."],
+    "stack":["Python","FastAPI","SQLAlchemy","SQLite","Pydantic","Pytest"],
+    "status":"API prototype · local development",
+    "statusNote":"No working public deployment was found in the repository. This is a learning and portfolio API, not a production attribution service. Authentication, live commerce integrations, and production infrastructure are future work.",
+    "live":null,"liveNote":"Public application unavailable. Run the repository locally to explore its API documentation.",
+    "github":"https://github.com/Aamilsamsung/TraceCart","image":"/assets/projects/tracecart.webp","imageWidth":1440,"imageHeight":1000,
+    "caption":"Actual Swagger UI from TraceCart commit c3cc770, running on a disposable local CI instance. This screenshot does not represent a hosted production service.","source":"README.md, app/main.py, and a running source build","sourceRef":"c3cc77060bd996f455d38a92a6c8c71f0be59c6a"
+  },
+  {
+    "slug":"orbixa","name":"Orbixa","category":"Scientific software / molecular workbench","short":"An experimental molecular workbench for structure editing and controlled chemistry calculation workflows.",
+    "description":"Orbixa is an early-stage computational chemistry project combining a browser-based molecular workbench with a Python calculation backend. The public interface exposes structure tools and method inputs; scientific execution requires a configured, authorized environment.",
+    "problem":"Molecular structures and calculation settings are difficult to explore through raw input files alone. Orbixa experiments with a visual workbench that connects structure preparation to controlled computational workflows.",
+    "workflow":["Choose a structure from the molecule library or prepare a structure through the workbench and XYZ editor.","Edit atoms and bonds and select the method, basis set, charge, and spin settings exposed by the interface.","In an authorized environment, submit the job to the configured calculation backend or worker. Public page availability does not establish scientific validity."],
+    "features":[{"title":"Structure workspace","text":"The public interface includes a molecule library, atom tools, a bond editor, and XYZ input/output."},{"title":"Calculation inputs","text":"Method, basis, functional, charge, and spin inputs connect the interface to its calculation workflow."},{"title":"Python computation code","text":"The repository contains initial RHF/UHF and DFT PySCF calculation implementations."},{"title":"Controlled execution","text":"Owner authorization and worker/backend configuration are required for actual jobs. Public calculations are not presented as generally available."}],
+    "uses":["Exploring molecular structure preparation and scientific interface design.","Studying how computational inputs can be validated before a job is submitted.","Developing a research-software prototype in a controlled local environment."],
+    "stack":["JavaScript","3Dmol.js","Python","FastAPI","PySCF","geomeTRIC"],
+    "status":"Experimental preview · scientific validation pending",
+    "statusNote":"The public workbench loaded during verification. Molecular rendering was not confirmed in the capture environment, and no calculation was submitted. Orbixa is not Gaussian-equivalent or scientifically validated; execution, worker availability, and numerical benchmarking remain separate concerns.",
+    "live":"https://orbixa-science-preview.onrender.com/","liveNote":"Opens the experimental workbench. Calculations require owner access and a configured backend/worker.",
+    "github":"https://github.com/Aamilsamsung/Orbixa","image":"/assets/projects/orbixa.webp","imageWidth":1348,"imageHeight":926,
+    "caption":"Actual public workbench, captured 26 October 2026. The captured viewport has an empty molecular canvas; no calculation result has been added or fabricated.","source":"README.md and public workbench","sourceRef":"cf4d8d1dd981ad11ca8c4b9f3ffd65e9cdeb5415"
+  },
+  {
+    "slug":"sentinelos","name":"SentinelOS","category":"Developer tools / software reliability","short":"A reliability platform in development, with a public preview for limited static source inspection.",
+    "description":"SentinelOS explores a workspace for inspecting source, reviewing incidents, organizing evidence, and tracking remediation. The canonical repository contains a multi-service platform; the public preview intentionally exposes a smaller set of capabilities.",
+    "problem":"Repository findings, incident evidence, and remediation decisions can become disconnected. SentinelOS aims to put those steps into a traceable workflow with scoped access and explicit approval boundaries.",
+    "workflow":["In the public Source Inspector, provide a supported public GitHub repository or source ZIP for limited static checks. The preview does not execute submitted code.","Review the source findings and their scope. The preview dashboard’s incidents and investigations are illustrative sample data.","The repository’s broader platform uses a Fastify API, PostgreSQL persistence, and Redis-backed workers to develop investigation and audit workflows."],
+    "features":[{"title":"Public source inspection","text":"The preview offers limited static checks on supported GitHub repositories and source ZIPs."},{"title":"Workspace navigation","text":"Incidents, investigations, remediation, and integrations are represented in the interface; preview operational records are fictional examples."},{"title":"Platform architecture","text":"The repository implements a Next.js command center, Fastify API, PostgreSQL storage, and Redis-backed worker."},{"title":"Approval and audit boundaries","text":"The repository documents organization scoping, permission revalidation, approval requirements, and auditable state changes."}],
+    "uses":["Trying limited, read-only source checks before a deeper manual review.","Exploring how evidence, incident context, and approvals can be organized in a reliability workspace.","Studying a multi-service application with database-backed work and asynchronous processing."],
+    "stack":["Next.js","React","TypeScript","Fastify","PostgreSQL","Redis","Docker"],
+    "status":"Release hardening · limited public preview",
+    "statusNote":"The preview loaded after a hosting cold start. Its dashboard statistics, incidents, investigations, and actions are explicitly sample data. Live monitoring, AI investigations, and remediation are not connected in this public preview. The repository also documents an unresolved backend specification/implementation decision.",
+    "live":"https://sentinelos-web-preview.onrender.com/","liveNote":"Opens an illustrative preview with limited real source checks. Free hosting may take time to wake up.",
+    "github":"https://github.com/Aamilsamsung/SentinelOS","image":"/assets/projects/sentinelos.webp","imageWidth":1348,"imageHeight":926,
+    "caption":"Actual public preview, captured 26 October 2026. The application itself labels its operational statistics and records as sample data.","source":"README.md, docs/ARCHITECTURE.md, and public preview","sourceRef":"b1b4b2f8f802415c533a3e2c15d1c33c3ba38532"
+  }
+]

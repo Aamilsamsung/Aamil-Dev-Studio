@@ -11,6 +11,7 @@ syncMenu(); narrow.addEventListener('change', syncMenu);
 menu.addEventListener('click', () => { nav.hidden = !nav.hidden; menu.setAttribute('aria-expanded', String(!nav.hidden)); });
 nav.addEventListener('click', e => { if (e.target.closest('a') && narrow.matches) syncMenu(); });
 document.addEventListener('keydown', e => { if(e.key === 'Escape' && narrow.matches && !nav.hidden) { syncMenu(); menu.focus(); } });
+if (form && status) {
 let widget;
 const submit = form.querySelector('button[type="submit"]');
 async function configureContact() {
@@ -47,6 +48,8 @@ form.addEventListener('submit', async e => {
   finally { submit.disabled = false; if(window.turnstile && widget !== undefined) window.turnstile.reset(widget); }
 });
 
+}
+
 // Reflect the current section without intercepting native anchor navigation.
 const sectionLinks = [...nav.querySelectorAll('a[href^="#"]')];
 if ('IntersectionObserver' in window) {
@@ -56,4 +59,18 @@ if ('IntersectionObserver' in window) {
   }
  }, {rootMargin:'-10% 0px -65% 0px'});
  for (const link of sectionLinks) {const target=document.querySelector(link.hash);if(target)observer.observe(target);}
+}
+
+// Keep screenshot failures understandable without substituting invented imagery.
+for (const image of document.querySelectorAll('.project-image img, .case-screenshot img')) {
+ const unavailable = () => {
+  if (image.hidden) return;
+  image.hidden = true;
+  const message = document.createElement('p');
+  message.className = 'screenshot-unavailable';
+  message.textContent = 'Screenshot temporarily unavailable. Project details and source links remain available.';
+  image.parentElement.append(message);
+ };
+ image.addEventListener('error', unavailable, {once:true});
+ if(image.complete && !image.naturalWidth) unavailable();
 }

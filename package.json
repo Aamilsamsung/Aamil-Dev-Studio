@@ -1,1 +1,13 @@
-{"private":true,"scripts":{"test":"node --test tests/*.test.js","build":"node scripts/build.js","validate":"html-validate index.html"},"devDependencies":{"@playwright/test":"1.64.1","axe-core":"4.14.0","html-validate":"11.17.0","vercel":"65.2.0"}}
+{
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "build": "node scripts/build.js",
+    "validate": "node scripts/build.js && html-validate \"dist/**/*.html\""
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "axe-core": "4.14.0",
+    "html-validate": "11.17.0"
+  }
+}

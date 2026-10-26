@@ -1,0 +1,5 @@
+// Local preview of the same clean URLs served by Vercel. Binds to localhost only.
+const http=require('node:http'),fs=require('node:fs'),path=require('node:path');
+const root=path.resolve('dist');
+const mime={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.webp':'image/webp','.png':'image/png','.xml':'application/xml','.txt':'text/plain'};
+http.createServer((req,res)=>{let name;try{name=decodeURIComponent(new URL(req.url,'http://localhost').pathname);}catch{res.writeHead(400);return res.end();}if(name==='/api/contact'){res.writeHead(200,{'Content-Type':'application/json'});return res.end(JSON.stringify({enabled:false,siteKey:null}));}let file=path.resolve(root,'.'+(name==='/'?'/index.html':name));if(!file.startsWith(root+path.sep)){res.writeHead(403);return res.end();}if(!path.extname(file))file+='.html';if(!fs.existsSync(file)||!fs.statSync(file).isFile()){file=path.join(root,'404.html');res.statusCode=404;}res.setHeader('Content-Type',mime[path.extname(file)]||'application/octet-stream');fs.createReadStream(file).pipe(res);}).listen(8080,'127.0.0.1',()=>console.log('Preview http://127.0.0.1:8080'));

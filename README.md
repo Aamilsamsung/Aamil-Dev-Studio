@@ -46,3 +46,15 @@ The current Vercel workspace is Hobby. Vercel restricts Hobby to personal, non-c
 Resend installation is pending the owner's specific approval to create a provider API key and store it securely in Vercel. Turnstile site/secret configuration and sender authorization are also pending. Inbox delivery has not been tested. The public endpoint correctly returns disabled configuration rather than claiming email success. Live cross-origin POST rejection was verified (403).
 
 The original responsive browser/axe suite passed in GitHub CI. The workflow now additionally tests the public production origin at the same three widths; consult the latest Actions run for the current outcome. Live performance has no Lighthouse score yet; one uncached network fetch is not a performance benchmark.
+
+## Project detail pages
+
+`content/projects.json` holds verified project copy, stacks, screenshots, public links, and scope limitations. `scripts/project-template.js` renders reusable cards and complete HTML pages. `scripts/build.js` emits `/projects/roastai`, `/projects/tracecart`, `/projects/orbixa`, and `/projects/sentinelos` as static `.html` assets; Vercel's existing `cleanUrls` serves the extensionless routes, including direct visits and refreshes. No new framework, hosting project, or production configuration was introduced.
+
+Homepage cards are normal, keyboard-accessible internal links. External application/repository links are only on detail pages and use `noopener noreferrer`. TraceCart has no live application button because no public deployment was verified. RoastAI is linked to its public sign-in, Orbixa to its experimental workbench, and SentinelOS to its explicitly limited/sample-data preview. The status text separates repository capabilities from publicly verified behavior.
+
+Image provenance is recorded in `assets/projects/PROVENANCE.md`. The build should ship only image assets from that directory, not the provenance document. Screenshots are optimized WebP files with explicit intrinsic dimensions; detail-page lead images load eagerly and related/homepage images load lazily. Captions describe actual capture conditions.
+
+Preview locally with `npm run build` then `node scripts/preview.js`. This localhost preview supports clean URLs and a disabled contact configuration response for UI checks. It does not send mail. Contact backend logic and credentials remain unchanged. Email-provider authorization and real delivery verification are still outstanding; the direct email action opens the visitor's email client and never claims that an email has been sent.
+
+Validation now checks all generated HTML pages, 16 Node tests (14 contact endpoint cases and 2 build/asset cases), direct route/refresh behavior at 390/768/1440px, screenshot loading, related projects, internal links, safe external links, useful 404 behavior, metadata, axe scans, and document-load timing logs. Timings are diagnostic measurements, not a Lighthouse score or field-performance claim.

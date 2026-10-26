@@ -18,7 +18,14 @@ jobs:
       # GitHub's Ubuntu runner includes Google Chrome and its OS dependencies.
       - run: npx playwright test
 
+      - name: Wait for production project routes
+        if: github.ref == 'refs/heads/main'
+        run: |
+          node <<'JS'
+          (async()=>{for(let i=0;i<30;i++){try{const r=await fetch('https://aamil-dev-studio.vercel.app/projects/roastai');if(r.ok && (await r.text()).includes('Back to Projects'))return;}catch{}await new Promise(r=>setTimeout(r,4000));}throw new Error('Project routes did not become available on production');})().catch(e=>{console.error(e);process.exit(1)});
+          JS
       - name: Verify live production layouts and accessibility
+        if: github.ref == 'refs/heads/main' 
         run: npx playwright test
         env:
           BASE_URL: https://aamil-dev-studio.vercel.app
