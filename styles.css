@@ -2,3 +2,5 @@
 /* Keep the compact project rhythm of the supplied desktop reference. */
 @media(min-width:1001px){.project-visual{height:123px}.project-body{margin-top:-33px;padding-bottom:18px}.project-title{min-height:36px}.project-body p{min-height:44px}}
 .footer-inner a{text-decoration:underline;text-underline-offset:3px}
+
+.project-visual:after{inset:45% 0 0;background:linear-gradient(transparent,#0c0f11 75%)}
