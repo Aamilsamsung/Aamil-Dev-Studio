@@ -15,7 +15,7 @@ jobs:
       - run: npm test
       - run: npm run validate
       - run: npm run build
-      - run: npx playwright install --with-deps chromium
+      # GitHub's Ubuntu runner includes Google Chrome and its OS dependencies.
       - run: npx playwright test
 
       - name: Verify live production layouts and accessibility
