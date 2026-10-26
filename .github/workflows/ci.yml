@@ -17,3 +17,8 @@ jobs:
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test
+
+      - name: Verify live production layouts and accessibility
+        run: npx playwright test
+        env:
+          BASE_URL: https://aamil-dev-studio.vercel.app

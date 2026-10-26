@@ -4,7 +4,7 @@ for(const width of [390,768,1440]) {
  test(`navigation, validation and accessibility at ${width}px`,async({page})=>{
   await page.setViewportSize({width,height:900});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://127.0.0.1:8080');
+  await page.goto((process.env.BASE_URL || 'http://127.0.0.1:8080'));
   await expect(page.getByRole('heading',{level:1})).toBeVisible();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   if(width<761){await page.getByRole('button',{name:/Menu/}).click();await expect(page.locator('#main-nav')).toBeVisible();}
@@ -24,7 +24,7 @@ for(const width of [390,768,1440]) {
  });
 }
 test('all internal links have targets and external project links are safe',async({page})=>{
- await page.goto('http://127.0.0.1:8080');
+ await page.goto((process.env.BASE_URL || 'http://127.0.0.1:8080'));
  expect(await page.locator('a[href^="#"]').evaluateAll(links=>links.filter(a=>!document.querySelector(a.getAttribute('href'))).map(a=>a.outerHTML))).toEqual([]);
  expect(await page.locator('a[target="_blank"]').evaluateAll(links=>links.every(a=>a.rel.includes('noopener')))).toBe(true);
 });
