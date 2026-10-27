@@ -12,7 +12,7 @@ for(const width of [390,768,1440]) {
   await expect(page.locator('#about')).toBeInViewport();
   if(width<761)await expect(page.locator('#main-nav')).toBeHidden();
   await page.locator('#contact').scrollIntoViewIfNeeded();
-  await page.getByRole('button',{name:'Send project enquiry'}).click();
+  await page.locator('#contact-form button[type=submit]').click();
   expect(await page.locator('input[name="name"]').evaluate(e=>e.validity.valueMissing)).toBe(true);
   await page.getByLabel('Your name').fill('Test visitor');
   await page.getByLabel('Email',{exact:true}).fill('bad-email');
@@ -85,4 +85,25 @@ test('document load measurements and screenshot transfer budget',async({page})=>
   console.log('Document timing',JSON.stringify(timing));
   expect(await page.locator('img').evaluateAll(els=>els.every(i=>i.hasAttribute('width')&&i.hasAttribute('height')))).toBe(true);
  }
+});
+
+test('unconfigured contact opens a Gmail draft with the enquiry details',async({page})=>{
+ await page.route('**/api/contact',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({enabled:false,siteKey:null})}));
+ await page.goto(base);
+ await expect(page.getByRole('button',{name:/Continue to Gmail/})).toBeVisible();
+ const direct=page.getByRole('link',{name:/Email a project brief/});
+ const directUrl=new URL(await direct.getAttribute('href'));
+ expect(directUrl.hostname).toBe('mail.google.com');
+ expect(directUrl.searchParams.get('to')).toBe('zevqlabs@gmail.com');
+ await page.getByLabel('Your name').fill('Test visitor');
+ await page.getByLabel('Email',{exact:true}).fill('visitor@example.com');
+ await page.getByLabel('What do you need?').selectOption({label:'Business website'});
+ await page.getByLabel('Project details').fill('Please build a website for my studio.');
+ await page.route('https://mail.google.com/**',route=>route.fulfill({status:200,contentType:'text/html',body:'Draft test'}));
+ await page.getByRole('button',{name:/Continue to Gmail/}).click();
+ await page.waitForURL(/mail\.google\.com/);
+ const draft=new URL(page.url());
+ expect(draft.searchParams.get('to')).toBe('zevqlabs@gmail.com');
+ expect(draft.searchParams.get('body')).toContain('visitor@example.com');
+ expect(draft.searchParams.get('body')).toContain('Please build a website for my studio.');
 });

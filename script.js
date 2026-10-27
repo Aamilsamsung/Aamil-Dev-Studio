@@ -13,6 +13,7 @@ nav.addEventListener('click', e => { if (e.target.closest('a') && narrow.matches
 document.addEventListener('keydown', e => { if(e.key === 'Escape' && narrow.matches && !nav.hidden) { syncMenu(); menu.focus(); } });
 if (form && status) {
 let widget;
+let contactReady = false;
 const submit = form.querySelector('button[type="submit"]');
 async function configureContact() {
   try {
@@ -23,10 +24,13 @@ async function configureContact() {
     const script = document.createElement('script');
     script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
     script.async = true;
-    script.onload = () => { widget = window.turnstile.render('#spam-check', { sitekey: config.siteKey, theme: 'dark' }); };
-    script.onerror = () => { status.textContent = 'Spam protection could not load. Please email directly below.'; };
+    script.onload = () => {
+      try { widget = window.turnstile.render('#spam-check', { sitekey: config.siteKey, theme: 'dark' }); contactReady = true; submit.textContent = 'Send project enquiry ↗'; document.querySelector('#contact-privacy').textContent = 'Your details are used to respond to your enquiry and sent using an email service. Please do not include passwords or sensitive information.'; status.textContent = 'Complete spam verification to send your enquiry.'; }
+      catch { status.textContent = 'Spam protection is unavailable. Continue to Gmail to send your enquiry.'; }
+    };
+    script.onerror = () => { status.textContent = 'Spam protection is unavailable. Continue to Gmail to send your enquiry.'; };
     document.head.append(script);
-  } catch { status.textContent = 'Online enquiries are not available yet. Please email zevqlabs@gmail.com directly.'; }
+  } catch { status.textContent = 'Continue to Gmail to review and send your enquiry.'; }
 }
 configureContact();
 form.addEventListener('submit', async e => {
@@ -35,6 +39,13 @@ form.addEventListener('submit', async e => {
   const data = Object.fromEntries(new FormData(form));
   for (const key of ['name','email','message']) data[key] = data[key].trim();
   if (!data.name || data.message.length < 20) { status.textContent = 'Enter your name and at least 20 characters of project details.'; return; }
+  if (data.website) { status.textContent = 'Unable to prepare this enquiry.'; return; }
+  if (!contactReady) {
+    const params = new URLSearchParams({view:'cm', fs:'1', to:'zevqlabs@gmail.com', su:'ZEVQ Labs project enquiry: ' + data.service, body:`Name: ${data.name}\nEmail: ${data.email}\nService: ${data.service}\n\nProject details:\n${data.message}`});
+    status.textContent = 'Opening Gmail. Review your draft and press Send.';
+    window.location.assign('https://mail.google.com/mail/?' + params.toString());
+    return;
+  }
   data.token = window.turnstile?.getResponse(widget) || '';
   if (!data.token) { status.textContent = 'Please complete spam verification. If it is unavailable, email directly below.'; return; }
   submit.disabled = true; status.textContent = 'Sending your enquiry…';

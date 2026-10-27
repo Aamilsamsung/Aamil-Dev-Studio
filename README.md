@@ -12,7 +12,7 @@ Browser checks: `npx playwright install chromium` then `npx playwright test`. Ch
 
 Import **Aamilsamsung/Aamil-Dev-Studio** into workspace **aamilsamsungm56-9276**, project **aamil-dev-studio**, framework **Other**, root `/`, production branch **main**. `vercel.json` sets `npm run build` and `dist`. Keep automatic Git deployments enabled. Do not publish the repository root as the static directory: it contains tests and setup files.
 
-Production is live at https://aamil-dev-studio.vercel.app/ (deployed through the authenticated dashboard on 26 October 2026). GitHub App access was granted specifically for this repository. The initial deployment was Ready at commit 9d07dbb; the dashboard confirms pushes to main update production automatically. The connected API still cannot see this new project; dashboard access was used. The public homepage and contact configuration endpoint return HTTP 200; contact delivery remains disabled until provider credentials are authorized.
+Production is live at https://zevq-labs.vercel.app/ (deployed through the authenticated dashboard on 26 October 2026). GitHub App access was granted specifically for this repository. The initial deployment was Ready at commit 9d07dbb; the dashboard confirms pushes to main update production automatically. The connected API still cannot see this new project; dashboard access was used. The public homepage and contact configuration endpoint return HTTP 200; contact delivery remains disabled until provider credentials are authorized.
 
 Absolute canonical, og:url, and og:image metadata now use the production URL. The supplied social image is 1200×630. No domain purchase is needed.
 
@@ -25,7 +25,7 @@ Delivery is deliberately disabled until all four environment variables are confi
 - `TURNSTILE_SITE_KEY`: public Cloudflare Turnstile site key for the actual production hostname.
 - `TURNSTILE_SECRET_KEY`: matching private verification key.
 
-Recipient is hardcoded to **aamil.dev@gmail.com**. Visitor email becomes Reply-To. Resend API acceptance is not proof of inbox delivery. Test with an identifiable enquiry, inspect provider delivery logs and verify receipt in the destination inbox before calling delivery verified. Never put secrets in chat, source, screenshots, or public environment variables.
+Recipient is hardcoded to **zevqlabs@gmail.com**. Visitor email becomes Reply-To. Resend API acceptance is not proof of inbox delivery. Test with an identifiable enquiry, inspect provider delivery logs and verify receipt in the destination inbox before calling delivery verified. Never put secrets in chat, source, screenshots, or public environment variables.
 
 Server checks JSON type, bounded field lengths, service allowlist, request origin, honeypot and single-use Turnstile verification with matching hostname. No enquiry body, address, API token or secret is logged. Responses and configuration are no-store. Challenge tokens prevent simple replay; configure Vercel Firewall rate limits and provider spending caps before higher traffic (no paid feature activated here). No durable enquiry store exists; network timeouts may leave delivery uncertain, and the UI says so. Provider outages offer direct email as a fallback.
 
@@ -58,3 +58,7 @@ Image provenance is recorded in `assets/projects/PROVENANCE.md`. The build shoul
 Preview locally with `npm run build` then `node scripts/preview.js`. This localhost preview supports clean URLs and a disabled contact configuration response for UI checks. It does not send mail. Contact backend logic and credentials remain unchanged. Email-provider authorization and real delivery verification are still outstanding; the direct email action opens the visitor's email client and never claims that an email has been sent.
 
 Validation now checks all generated HTML pages, 16 Node tests (14 contact endpoint cases and 2 build/asset cases), direct route/refresh behavior at 390/768/1440px, screenshot loading, related projects, internal links, safe external links, useful 404 behavior, metadata, axe scans, and document-load timing logs. Timings are diagnostic measurements, not a Lighthouse score or field-performance claim.
+
+## Gmail draft fallback
+
+While server delivery is unconfigured or spam protection cannot load, the form prepares a Gmail compose page addressed to zevqlabs@gmail.com with the visitor’s entered details. The visitor must sign in if needed, review the draft, and press Send. The direct enquiry button also opens Gmail; a mailto link remains available. This fallback does not automatically send or verify delivery.
